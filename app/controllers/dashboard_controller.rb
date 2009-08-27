@@ -49,7 +49,8 @@ class DashboardController < ApplicationController
     allowed_statuses = issue.new_statuses_allowed_to(User.current)
 
     # Check that the user is allowed to update the status of the issue.
-    if (allowed_statuses.include? requested_status)
+    # and if issue dropped on original area, ignore it. (prevent dirty history)
+    if (allowed_statuses.include? requested_status) && (requested_status != old_status)
       issue.update_attribute(:status_id, where)
       # Update the journal containing all the changes to the issue.
       journal = issue.init_journal(User.current)

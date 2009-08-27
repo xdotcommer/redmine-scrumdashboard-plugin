@@ -52,8 +52,9 @@ module DashboardHelper
       id='issue-#{parent_id}-#{issue.id}-#{col}-#{filter}'"
     # Display tooltip.
     html += "onmouseover='tooltip(\"" +
-      "<b>#{issue}</b><br/>" +
-      issue.description.gsub(/\r\n/, "<br/>")+"<br/>" +
+      "<b>" + issue.subject.gsub(/"/, '\\\\"').gsub(/'/, '`') + "</b><br/>" +
+      issue.description.gsub(/\r\n/, "<br/>").gsub(/"/,'\\\\"').gsub(/'/,'`') +
+      "<br/>" +
       "<b>#{l(:field_start_date)}:</b> #{format_date(issue.start_date)}<br/>" +
       "<b>#{l(:field_due_date)}:</b> #{format_date(issue.due_date)}<br/>" +
       "<b>#{l(:field_assigned_to)}:</b> #{issue.assigned_to}<br/>" +
