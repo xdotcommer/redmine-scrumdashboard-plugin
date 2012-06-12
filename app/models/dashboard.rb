@@ -62,7 +62,7 @@ class Dashboard < ActiveRecord::Base
     dashboard_trackers.each do |dt|
       @project_trackers << dt.tracker
     end
-    @project_trackers.uniq
+    @project_trackers
   end
   
   def maintrackers
@@ -70,7 +70,7 @@ class Dashboard < ActiveRecord::Base
     dashboard_trackers.each do |dt|
       if dt.maintracker == 1 then @maintrackers << dt.tracker end
     end
-    @maintrackers.uniq
+    @maintrackers
   end
   
   def project_statuses
@@ -78,7 +78,7 @@ class Dashboard < ActiveRecord::Base
     dashboard_statuses.each do |ds|
       @project_statuses << ds.status
     end
-    @project_statuses.uniq.sort! { |a,b| a.position <=> b.position }
+    @project_statuses.sort! { |a,b| a.position <=> b.position }
   end
   
   def issues_in_version_has_status?(status, version)
