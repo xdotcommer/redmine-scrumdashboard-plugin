@@ -24,23 +24,19 @@ class DashboardTracker < ActiveRecord::Base
   validates_presence_of :textcolor
 
   def set_as_maintracker
-    self.write_attribute(:maintracker, 1)
-    self.save!
+    self.update_attributes!(:maintracker => 1)
   end
 
   def remove_maintracker
-    self.write_attribute(:maintracker, 0)
-    self.save!
+    self.update_attributes!(:maintracker => 0)
   end
 
-  def bgcolor=(bgcolor)
-    self.write_attribute(:bgcolor, bgcolor)
-    self.save!
-  end
-
-  def textcolor=(textcolor)
-    self.write_attribute(:textcolor, textcolor)
-    self.save!
-  end
+#   def bgcolor=(bgcolor)
+#     self.update_attributes!(:bgcolor => bgcolor)
+#   end
+# 
+#   def textcolor=(textcolor)
+#     self.update_attributes!(:textcolor => textcolor)
+#   end
 
 end
