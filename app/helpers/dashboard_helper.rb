@@ -64,7 +64,7 @@ module DashboardHelper
       :action => 'show', :id => issue}, {"style" => "color:#{dbtracker.textcolor}", "onmousedown" => "wasdragged = false;", 
       "onmouseup" => "if(wasdragged){this.href='javascript:void(0)';}"})
     html += "</div>"
-    if draggable then html += draggable_element("issue-#{parent_id}-#{issue.id.to_s}-#{col}-#{filter}", :revert => true) end
+    #if draggable then html += draggable_element("issue-#{parent_id}-#{issue.id.to_s}-#{col}-#{filter}", :revert => true) end
     return html
   end
 
@@ -77,11 +77,11 @@ module DashboardHelper
     if !last then html_start += "border-right: 1px solid #999;" end
     html_start += "' id='drop-#{issue.id.to_s}-#{column.status.id.to_s}'>"
     html_end = "</div>"
-    html_end += drop_receiving_element "drop-#{issue.id.to_s}-#{column.status.id.to_s}",
-      :url => { :action => "update", :where => column.status.id.to_s, :drop => issue.id.to_s,
-      :version => @version }, 
-      :hoverclass => "hover",
-      :before => "Element.hide(element)"
+    # html_end += drop_receiving_element "drop-#{issue.id.to_s}-#{column.status.id.to_s}",
+    #   :url => { :action => "update", :where => column.status.id.to_s, :drop => issue.id.to_s,
+    #   :version => @version }, 
+    #   :hoverclass => "hover",
+    #   :before => "Element.hide(element)"
     html = ""
     column.issues.each do |i|
       if filter != "mine" || i.assigned_to == User.current
@@ -96,7 +96,8 @@ module DashboardHelper
     html_start = "<div class='frame' style='clear:both;' id='frame-#{issue.id}'>"
     html_end = "</div>"
     html = html_start + capture(&block) + html_end
-    concat(html, block.binding)
+    #concat(html, block.binding)
+    concat html
   end
 
   def add_observer
