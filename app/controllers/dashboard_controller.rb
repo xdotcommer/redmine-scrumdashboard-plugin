@@ -206,7 +206,7 @@ private
 
     if params[:sort] then session[:sort][:status] = params[:sort] end
     if params[:reverse] then session[:sort][:reverse] = params[:reverse].to_i end
-debugger
+    
     @project = Project.find(params[:id])
     @sort = session[:sort][:status]
     @reverse = session[:sort][:reverse]
