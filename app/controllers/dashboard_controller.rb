@@ -5,12 +5,12 @@
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -73,7 +73,7 @@ class DashboardController < ApplicationController
       last = column.status == dashboard.project_statuses.last
       # Remove the issue from the dashboard and draw it to the new status.
       page.replace params[:id], ""
-      page.replace_html("drop-"+drop+"-"+where, 
+      page.replace_html("drop-"+drop+"-"+where,
                         draw_content(column, col, 100, height, dashboard.maintrackers, last, filter))
       # Adjust the height of the frame to fit the new placement of issues.
       dashboard.project_statuses.each do |status|
@@ -92,13 +92,13 @@ class DashboardController < ApplicationController
     new_ids = Array.new(new-old)
     old_ids = Array.new(old-new)
 
-    if params[:change] == "Status" && old_ids.include?(session[:sort][:status]) 
+    if params[:change] == "Status" && old_ids.include?(session[:sort][:status])
       then session[:sort] = { :status => nil, :reverse => nil } end
 
     # Update trackers and statuses included on the dashboard.
     old_ids.each do |oid|
       if params[:change] == "Tracker"
-        dtracker = DashboardTracker.find(:first, :conditions => ["dashboard_id = ? AND tracker_id = ?", 
+        dtracker = DashboardTracker.find(:first, :conditions => ["dashboard_id = ? AND tracker_id = ?",
           @dashboard.id, oid.to_i])
         DashboardTracker.delete(dtracker.id)
       else
@@ -128,13 +128,13 @@ class DashboardController < ApplicationController
       old_ids = Array.new(maintrackers_old-maintrackers_new)
 
       old_ids.each do |oid|
-        dtracker = DashboardTracker.find(:first, :conditions => ["dashboard_id = ? AND tracker_id = ?", 
+        dtracker = DashboardTracker.find(:first, :conditions => ["dashboard_id = ? AND tracker_id = ?",
           @dashboard.id, oid.to_i])
         dtracker.remove_maintracker unless !dtracker
       end
 
       new_ids.each do |nid|
-        dtracker = DashboardTracker.find(:first, :conditions => ["dashboard_id = ? AND tracker_id = ?", 
+        dtracker = DashboardTracker.find(:first, :conditions => ["dashboard_id = ? AND tracker_id = ?",
           @dashboard.id, nid.to_i])
         dtracker.set_as_maintracker
       end
@@ -145,6 +145,7 @@ class DashboardController < ApplicationController
             dtracker = DashboardTracker.find(:first, :conditions => ["dashboard_id = ? AND tracker_id = ?",
               @dashboard.id, key.to_i])
             dtracker.textcolor = value != "" ? value : dtracker.textcolor = "#2A5685"
+            dtracker.save!
           end
         end
       end
@@ -155,6 +156,7 @@ class DashboardController < ApplicationController
             dtracker = DashboardTracker.find(:first, :conditions => ["dashboard_id = ? AND tracker_id = ?",
               @dashboard.id, key.to_i])
             dtracker.bgcolor = value != "" ? value : dtracker.bgcolor = "yellow"
+            dtracker.save!
           end
         end
       end
@@ -204,6 +206,7 @@ private
 
     if params[:sort] then session[:sort][:status] = params[:sort] end
     if params[:reverse] then session[:sort][:reverse] = params[:reverse].to_i end
+    
     @project = Project.find(params[:id])
     @sort = session[:sort][:status]
     @reverse = session[:sort][:reverse]
@@ -214,6 +217,7 @@ private
     end
 
     @issuestatuses = @dashboard.project_statuses
+
     @versions = @project.versions.sort
     @version = params[:version_id] ? Version.find(params[:version_id]) : @versions.reverse.first
 

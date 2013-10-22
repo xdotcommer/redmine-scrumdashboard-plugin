@@ -1,8 +1,8 @@
 <% if User.current.allowed_to?(:edit_dashboard, @project, :global => true) %>
 
-  <% form_tag ({:action => 'update_settings', :id => @dashboard, :version => @version.id}, :id => 'status_form') do %>
+  <%= form_tag({:action => 'update_settings', :id => @dashboard, :version => @version.id}, :id => 'status_form') do %>
     <div class='box tabular settings'>
-      <b><%= l(:label_dashboard_select_statuses) -%></b>
+     <b><%= l(:label_dashboard_select_statuses) -%></b>
       <br/><br/>
       <% @all_statuses.each do |s| %>
         <% if @project_statuses.include?(s) %>
